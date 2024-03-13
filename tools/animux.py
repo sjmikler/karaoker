@@ -13,6 +13,7 @@ assert get_constant("PHPSESSID"), "PHPSESSID not found in environment variables"
 session.cookies.set("PHPSESSID", get_constant("PHPSESSID"))
 
 AnimuxSong = namedtuple("AnimuxSong", ("artist", "title", "id", "views"))
+TXT_DIRECTORY = os.path.join(get_constant("DATA_DIRECTORY"), "TXT")
 
 
 def seach_songs(artist, title, limit=1, order="views", ud="desc", table=dict()):
@@ -77,7 +78,7 @@ def _download_annotations(song_ids):
     tmp_file = tempfile.NamedTemporaryFile(mode="wb")
     tmp_file.write(response.content)
     with zipfile.ZipFile(tmp_file.name, "r") as zip_ref:
-        zip_ref.extractall(get_constant("TXT_DIRECTORY"))
+        zip_ref.extractall(TXT_DIRECTORY)
     tmp_file.close()
 
 
@@ -85,7 +86,7 @@ def download_annotations_for_songs(songs, max_pack_size=10):
     missing_songs = []
     for song in songs:
         animux_compliant_title = f"{song.artist} - {song.title}"
-        output_path = os.path.join(get_constant("TXT_DIRECTORY"), animux_compliant_title)
+        output_path = os.path.join(TXT_DIRECTORY, animux_compliant_title)
         if not os.path.exists(output_path):
             missing_songs.append(song)
 

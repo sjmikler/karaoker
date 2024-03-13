@@ -1,11 +1,12 @@
 PHPSESSID: # Cookie (extract with developer tools and set as environment variable)
 
-# Location of the file containg song titles
-SONG_LIST: "/PATH/TO/SONGS.txt"
+# Location of a text file containg song titles
+SONG_LIST: "/PATH/TO/SONG_LIST.txt"
 
-# Location other the files
-MP4_DIRECTORY: "/PATH/TO/MP4_DIRECTORY"
-TXT_DIRECTORY: "/PATH/TO/TXT_DIRECTORY"
-FINAL_DIRECTORY: "/PATH/TO/FINAL_DIRECTORY"
+# Location of auxiliary files saved by the program
+DATA_DIRECTORY: "/PATH/TO/DATA_DIRECTORY/"
+
+# Location of destination directory containing the packs
+FINAL_DIRECTORY: "/PATH/TO/FINAL_DIRECTORY/"
 
 PREFERRED_RESOLUTION: "720p"

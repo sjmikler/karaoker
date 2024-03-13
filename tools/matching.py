@@ -9,6 +9,10 @@ from tqdm import tqdm
 
 from tools import utils
 
+MP4_DIRECTORY = os.path.join(utils.get_constant("DATA_DIRECTORY"), "MP4")
+TXT_DIRECTORY = os.path.join(utils.get_constant("DATA_DIRECTORY"), "TXT")
+FINAL_DIRECTORY = utils.get_constant("FINAL_DIRECTORY")
+
 
 def MP4ToMP3(mp4, mp3):
     converter = AudioFileClip(mp4)
@@ -32,10 +36,10 @@ def run_matching_and_conversion(songs):
     for song in songs:
         txt_name = utils.get_song_title(song)
         mp4_name = utils.get_song_title(song, suffix=".mp4")
-        txt_path = os.path.join(utils.get_constant("TXT_DIRECTORY"), txt_name)
-        mp4_path = os.path.join(utils.get_constant("MP4_DIRECTORY"), mp4_name)
+        txt_path = os.path.join(TXT_DIRECTORY, txt_name)
+        mp4_path = os.path.join(MP4_DIRECTORY, mp4_name)
 
-        destination = os.path.join(utils.get_constant("FINAL_DIRECTORY"), txt_name)
+        destination = os.path.join(FINAL_DIRECTORY, txt_name)
         proc = executor.submit(copy_and_convert, txt_path, mp4_path, destination)
         processes.append(proc)
 

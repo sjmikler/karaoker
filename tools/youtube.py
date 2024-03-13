@@ -1,9 +1,14 @@
-from os.path import join
+import os
+from pathlib import Path
 
+import requests
 from pytube import YouTube
 from pytube.exceptions import AgeRestrictedError
 
 from tools.utils import get_constant
+
+MP4_DIRECTORY = os.path.join(get_constant("DATA_DIRECTORY"), "MP4")
+JPG_DIRECTORY = os.path.join(get_constant("DATA_DIRECTORY"), "JPG")
 
 
 def download_mp4(link, new_title=None, table=dict()):
@@ -33,8 +38,20 @@ def download_mp4(link, new_title=None, table=dict()):
     table["quality"] = stream.resolution
     table["size MB"] = stream.filesize_mb
 
-    if stream.exists_at_path(join(get_constant("MP4_DIRECTORY"), new_title)):
+    if stream.exists_at_path(os.path.join(MP4_DIRECTORY, new_title)):
         table["missing"] = "false"
     else:
         table["missing"] = "true"
-        stream.download(get_constant("MP4_DIRECTORY"), filename=new_title)
+        stream.download(MP4_DIRECTORY, filename=new_title)
+
+    thumbnail_destination = (Path(JPG_DIRECTORY) / new_title).with_suffix(".jpg")
+    download_thumbnail(yt, thumbnail_destination)
+
+
+def download_thumbnail(yt, destination):
+    if os.path.exists(destination):
+        return
+
+    response = requests.get(yt.thumbnail_url)
+    with open(destination, "wb") as file:
+        file.write(response.content)

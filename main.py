@@ -23,10 +23,10 @@ def prepare_packs(finished_songs):
 
 
 if __name__ == "__main__":
-    utils.assert_constants_are_set()
-    os.makedirs(utils.get_constant("MP4_DIRECTORY"), exist_ok=True)
-    os.makedirs(utils.get_constant("TXT_DIRECTORY"), exist_ok=True)
-    os.makedirs(utils.get_constant("FINAL_DIRECTORY"), exist_ok=True)
+    utils.assert_constants_are_correct()
+    for subdir in ["MP4", "TXT", "JPG"]:
+        path = os.path.join(utils.get_constant("DATA_DIRECTORY"), subdir)
+        os.makedirs(path, exist_ok=True)
 
     table = ProgressTable(
         num_decimal_places=1,

@@ -32,12 +32,12 @@ def get_constant(key) -> str:
         raise KeyError(f"Variable {key} not found in {YAML_PATH}")
 
 
-def assert_constants_are_set():
-    msg = "Please set the constants in the constants.yaml file"
-    assert get_constant("MP4_DIRECTORY") != "/PATH/TO/MP4_DIRECTORY", msg
-    assert get_constant("TXT_DIRECTORY") != "/PATH/TO/TXT_DIRECTORY", msg
-    assert get_constant("FINAL_DIRECTORY") != "/PATH/TO/FINAL_DIRECTORY", msg
-    assert Path(get_constant("SONG_LIST")).exists(), f"File {get_constant('SONG_LIST')} does not exist"
+def assert_constants_are_correct():
+    required = ["DATA_DIRECTORY", "FINAL_DIRECTORY", "SONG_LIST"]
+
+    for key in required:
+        value = get_constant(key)
+        assert os.path.exists(value), f"Variable {key} is not set or does not exist: {value}"
 
 
 def parse_song_queries():
