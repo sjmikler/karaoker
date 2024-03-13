@@ -6,7 +6,7 @@ SONG_LIST: "/PATH/TO/SONG_LIST.txt"
 # Location of files downloaded by the program
 DATA_DIRECTORY: "/PATH/TO/DATA_DIRECTORY/"
 
-# Location of destination directory containing the packs
+# Destination directory containing UltraStar packs
 FINAL_DIRECTORY: "/PATH/TO/FINAL_DIRECTORY/"
 
 # If preferred resolution is not available, the highest available is used
