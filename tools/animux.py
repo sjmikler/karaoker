@@ -75,11 +75,12 @@ def _download_annotations(song_ids):
     link = links[0]["href"]
     response = session.get("https://usdb.animux.de/" + link)
 
-    tmp_file = tempfile.NamedTemporaryFile(mode="wb")
+    tmp_file = tempfile.NamedTemporaryFile(mode="wb", suffix=".zip", delete=False)
     tmp_file.write(response.content)
+    tmp_file.close()
     with zipfile.ZipFile(tmp_file.name, "r") as zip_ref:
         zip_ref.extractall(TXT_DIRECTORY)
-    tmp_file.close()
+    os.unlink(tmp_file.name)
 
 
 def download_annotations_for_songs(songs, max_pack_size=10):

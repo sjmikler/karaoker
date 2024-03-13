@@ -1,7 +1,7 @@
 import os
 import shutil
 import time
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ProcessPoolExecutor
 from pathlib import Path
 
 from moviepy.editor import AudioFileClip
@@ -16,23 +16,31 @@ FINAL_DIRECTORY = utils.get_constant("FINAL_DIRECTORY")
 
 
 def MP4ToMP3(mp4, mp3):
-    if os.path.exists(mp3):
-        return
-
     converter = AudioFileClip(mp4)
     converter.write_audiofile(mp3, verbose=False, logger=None)
     converter.close()
 
 
-def copy_and_convert(txt_path, mp4_path, destination):
-    shutil.copytree(txt_path, destination, dirs_exist_ok=True)
-    shutil.copy(mp4_path, destination)
+def copy_and_convert(txt_path: str, mp4_path: str, destination: str):
+    if not os.path.exists(destination):
+        os.makedirs(destination)
+
+    for file_name in os.listdir(txt_path):
+        file_path = os.path.join(txt_path, file_name)
+        file_dest = os.path.join(destination, file_name)
+        if not os.path.exists(file_dest):
+            shutil.copy(file_path, file_dest)
+
+    mp4_dest = os.path.join(destination, os.path.basename(mp4_path))
+    if not os.path.exists(mp4_dest):
+        shutil.copy(mp4_path, mp4_dest)
 
     new_mp4_path = os.path.join(destination, Path(mp4_path).name)
     new_mp3_path = Path(new_mp4_path).with_suffix(".mp3")
-    MP4ToMP3(new_mp4_path, new_mp3_path)
+    if not os.path.exists(new_mp3_path):
+        MP4ToMP3(new_mp4_path, new_mp3_path)
 
-    short_name = Path(txt_path).name
+    short_name = os.path.basename(txt_path)
     cover_name = f"{short_name} [CO].jpg"
     cover_path = os.path.join(destination, cover_name)
     if not os.path.exists(cover_path):
@@ -42,7 +50,7 @@ def copy_and_convert(txt_path, mp4_path, destination):
 
 def run_matching_and_conversion(songs):
     processes = []
-    executor = ThreadPoolExecutor(max_workers=os.cpu_count())
+    executor = ProcessPoolExecutor(max_workers=os.cpu_count())
 
     for song in songs:
         txt_name = utils.get_song_title(song)
