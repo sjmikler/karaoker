@@ -4,7 +4,7 @@ from pathlib import Path
 
 import yaml
 
-SearchQuery = namedtuple("Search", ("artist", "song", "limit"))
+Query = namedtuple("Query", ("artist", "song", "limit"))
 
 
 def package_relative_path(path):
@@ -49,6 +49,7 @@ def parse_song_queries():
 
         for line in lines:
             line = line.strip()
+            line = line.split("#")[0].strip()
             if not line:
                 continue
 
@@ -56,7 +57,12 @@ def parse_song_queries():
             artist = line.pop(0).strip()
             title = line.pop(0).strip() if line else ""
             limit = line.pop(0).strip() if line else "1"
-            songs.append(SearchQuery(artist, title, limit))
+
+            song = Query(artist, title, limit)
+            if song not in songs:
+                songs.append(song)
+            else:
+                print(f"Duplicated query: {song}")
     return songs
 
 

@@ -31,9 +31,10 @@ def copy_and_convert(txt_path, mp4_path, destination):
 
     short_name = Path(txt_path).name
     cover_name = f"{short_name} [CO].jpg"
-    cover_path = Path(destination) / cover_name
-    thumbnail_path = (Path(JPG_DIRECTORY) / short_name).with_suffix(".jpg")
-    shutil.copy(thumbnail_path, cover_path)
+    cover_path = os.path.join(destination, cover_name)
+    if not os.path.exists(cover_path):
+        thumbnail_path = os.path.join(JPG_DIRECTORY, short_name) + ".jpg"
+        shutil.copy(thumbnail_path, cover_path)
 
 
 def run_matching_and_conversion(songs):

@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 
@@ -64,12 +65,12 @@ def set_correct_audio_video_name(pack_location):
     assert path.is_dir(), f"{path} is not a directory"
 
     song_name = path.name
-    file_path = path / (song_name + ".x")  # adding fake suffix to be replaced
-    assert file_path.with_suffix(".txt").exists(), f"{file_path.with_suffix('.txt')} does not exist"
-    assert file_path.with_suffix(".mp3").exists()
-    assert file_path.with_suffix(".mp4").exists()
+    base_path = os.path.join(path, song_name)
+    assert os.path.exists(base_path + ".txt"), f"{base_path + '.txt'} does not exist"
+    assert os.path.exists(base_path + ".mp3")
+    assert os.path.exists(base_path + ".mp4")
 
-    txt_file = file_path.with_suffix(".txt")
+    txt_file = base_path + ".txt"
     metadata = extract_metadata_from_txt(txt_file)
     metadata["MP3"] = f"{song_name}.mp3"
     metadata["VIDEO"] = f"{song_name}.mp4"
