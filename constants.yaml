@@ -9,4 +9,8 @@ DATA_DIRECTORY: "/PATH/TO/DATA_DIRECTORY/"
 # Location of destination directory containing the packs
 FINAL_DIRECTORY: "/PATH/TO/FINAL_DIRECTORY/"
 
+# If preferred resolution is not available, the highest available is used
 PREFERRED_RESOLUTION: "720p"
+
+# Animux songs have low quality covers, we can overwrite them using YouTube video thumbnail
+OVERWRITE_THUMBNAILS: false
