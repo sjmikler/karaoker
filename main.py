@@ -5,6 +5,7 @@ from progress_table import ProgressTable
 from tools import animux, matching, metadata, utils, youtube
 
 if __name__ == "__main__":
+    utils.assert_constants_are_set()
     os.makedirs(utils.get_constant("MP4_DIRECTORY"), exist_ok=True)
     os.makedirs(utils.get_constant("TXT_DIRECTORY"), exist_ok=True)
     os.makedirs(utils.get_constant("FINAL_DIRECTORY"), exist_ok=True)
@@ -33,7 +34,7 @@ if __name__ == "__main__":
             table["AX id"] = song.id
             table["AX artist"] = song.artist
             table["AX title"] = song.title
-            table["AX views"] = song.views
+            table["views"] = song.views
 
             link = animux.extract_youtube_link_for_id(song.id, table=table)
             if link is None:

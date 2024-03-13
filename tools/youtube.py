@@ -30,8 +30,8 @@ def download_mp4(link, new_title=None, table=dict()):
 
     table["YT artist"] = author
     table["YT title"] = title
-    table["YT resolution"] = stream.resolution
-    table["size (MB)"] = stream.filesize_mb
+    table["quality"] = stream.resolution
+    table["size MB"] = stream.filesize_mb
 
     if stream.exists_at_path(join(get_constant("MP4_DIRECTORY"), new_title)):
         table["missing"] = "false"
