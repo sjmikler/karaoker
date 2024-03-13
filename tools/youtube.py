@@ -8,13 +8,16 @@ from tools.utils import get_constant
 
 MP4_DIRECTORY = os.path.join(get_constant("DATA_DIRECTORY"), "MP4")
 JPG_DIRECTORY = os.path.join(get_constant("DATA_DIRECTORY"), "JPG")
+FINAL_DIRECTORY = os.path.join(get_constant("FINAL_DIRECTORY"))
 
 
 def download_mp4(link, new_title, table=dict()):
     max_resolution = get_constant("PREFERRED_RESOLUTION")
-    mp4_destination_path = os.path.join(MP4_DIRECTORY, new_title) + ".mp4"
     jpg_destination_path = os.path.join(JPG_DIRECTORY, new_title) + ".jpg"
-    if os.path.exists(mp4_destination_path) and os.path.exists(jpg_destination_path):
+    mp4_destination_path = os.path.join(MP4_DIRECTORY, new_title) + ".mp4"
+    mp4_final_path = os.path.join(FINAL_DIRECTORY, new_title, new_title) + ".mp4"
+    mp4_ok = os.path.exists(mp4_final_path) or os.path.exists(mp4_destination_path)
+    if mp4_ok and os.path.exists(jpg_destination_path):
         return
 
     try:
