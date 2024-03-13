@@ -2,3 +2,4 @@ pytube
 beautifulsoup4
 progress-table
 moviepy
+pyyaml

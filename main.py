@@ -11,11 +11,14 @@ if __name__ == "__main__":
     os.makedirs(utils.get_constant("FINAL_DIRECTORY"), exist_ok=True)
 
     table = ProgressTable(
-        default_column_alignment="left",
         num_decimal_places=1,
         pbar_show_progress=True,
         pbar_show_throughput=False,
     )
+    table.add_column("artist")
+    table.add_column("title")
+    table.add_column("num", width=3)
+    table.add_column("views", width=5)
 
     queries = utils.parse_song_queries()
     num_songs = sum([int(query.limit) for query in queries])

@@ -37,6 +37,7 @@ def assert_constants_are_set():
     assert get_constant("MP4_DIRECTORY") != "/PATH/TO/MP4_DIRECTORY", msg
     assert get_constant("TXT_DIRECTORY") != "/PATH/TO/TXT_DIRECTORY", msg
     assert get_constant("FINAL_DIRECTORY") != "/PATH/TO/FINAL_DIRECTORY", msg
+    assert Path(get_constant("SONG_LIST")).exists(), f"File {get_constant('SONG_LIST')} does not exist"
 
 
 def parse_song_queries():
