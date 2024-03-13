@@ -12,5 +12,5 @@ FINAL_DIRECTORY: "/PATH/TO/FINAL_DIRECTORY/"
 # If preferred resolution is not available, the highest available is used
 PREFERRED_RESOLUTION: "720p"
 
-# Animux songs have low quality covers, we can overwrite them using YouTube video thumbnail
+# Animux songs have low quality covers, we can overwrite them using YouTube video thumbnails
 OVERWRITE_COVERS: false
