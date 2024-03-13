@@ -12,6 +12,8 @@ Mass download songs from https://usdb.animux.de/.
 
 > If you need to download age restricted youtube video, you will be prompted to login (via pytube).
 
+Whatever you set as `FINAL_DIRECTORY` is ready to be used by UltraStar.
+
 ### Explanation: song list
 
 This is a list of all the songs you want to download.
