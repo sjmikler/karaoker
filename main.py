@@ -10,7 +10,12 @@ if __name__ == "__main__":
     os.makedirs(utils.get_constant("TXT_DIRECTORY"), exist_ok=True)
     os.makedirs(utils.get_constant("FINAL_DIRECTORY"), exist_ok=True)
 
-    table = ProgressTable(default_column_alignment="left", num_decimal_places=1)
+    table = ProgressTable(
+        default_column_alignment="left",
+        num_decimal_places=1,
+        pbar_show_progress=True,
+        pbar_show_throughput=False,
+    )
 
     queries = utils.parse_song_queries()
     num_songs = sum([int(query.limit) for query in queries])
@@ -25,10 +30,10 @@ if __name__ == "__main__":
 
         songs = animux.seach_songs(artist, title, limit, table=table)
         if not songs:
-            table["results"] = 0
+            table["num"] = 0
             table.next_row(color="red")
             continue
-        table["results"] = len(songs)
+        table["num"] = len(songs)
 
         for song in songs:
             table["AX id"] = song.id
