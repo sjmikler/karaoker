@@ -10,7 +10,7 @@ PACK_PREPARATION_INTERVAL = 20
 def prepare_packs(finished_songs):
     print(f"Processed {len(finished_songs)} songs. Downloading missing txt...", end=" ")
     num_missing = animux.download_annotations_for_songs(finished_songs, max_pack_size=10)
-    print(f"Dowloaded {num_missing}!")
+    print(f"Downloaded {num_missing}!")
 
     print("Creating packs and converting MP4 to MP3...")
     matching.run_matching_and_conversion(finished_songs)
