@@ -3,7 +3,7 @@ PHPSESSID: # Cookie (extract with developer tools and set as environment variabl
 # Location of a text file containg song titles
 SONG_LIST: "/PATH/TO/SONG_LIST.txt"
 
-# Location of auxiliary files saved by the program
+# Location of files downloaded by the program
 DATA_DIRECTORY: "/PATH/TO/DATA_DIRECTORY/"
 
 # Location of destination directory containing the packs

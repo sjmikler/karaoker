@@ -37,7 +37,7 @@ def assert_constants_are_correct():
 
     for key in required:
         value = get_constant(key)
-        assert os.path.exists(value), f"Variable {key} is not set or does not exist: {value}"
+        assert os.path.exists(value), f"Variable {key} is not set or file does not exist: {value}"
 
 
 def parse_song_queries():
