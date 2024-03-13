@@ -11,7 +11,12 @@ MP4_DIRECTORY = os.path.join(get_constant("DATA_DIRECTORY"), "MP4")
 JPG_DIRECTORY = os.path.join(get_constant("DATA_DIRECTORY"), "JPG")
 
 
-def download_mp4(link, new_title=None, table=dict()):
+def download_mp4(link, new_title, table=dict()):
+    mp4_destination_path = os.path.join(MP4_DIRECTORY, new_title) + ".mp4"
+    jpg_destination_path = os.path.join(JPG_DIRECTORY, new_title) + ".jpg"
+    if os.path.exists(mp4_destination_path) and os.path.exists(jpg_destination_path):
+        return
+
     max_resolution = get_constant("PREFERRED_RESOLUTION")
 
     try:
@@ -19,6 +24,7 @@ def download_mp4(link, new_title=None, table=dict()):
         stream = yt.streams.get_by_resolution(max_resolution) or yt.streams.filter().get_highest_resolution()
 
     except AgeRestrictedError:
+        # if the video is age restricted, we need to authenticate
         yt = YouTube(
             link,
             use_oauth=True,
@@ -30,25 +36,21 @@ def download_mp4(link, new_title=None, table=dict()):
     author = info["videoDetails"]["author"]
     title = info["videoDetails"]["title"]
 
-    if new_title is None:
-        new_title = f"{author} - {title}"
-
     table["YT artist"] = author
     table["YT title"] = title
     table["quality"] = stream.resolution
     table["size MB"] = stream.filesize_mb
 
-    if stream.exists_at_path(os.path.join(MP4_DIRECTORY, new_title)):
+    if stream.exists_at_path(mp4_destination_path):
         table["missing"] = "false"
     else:
         table["missing"] = "true"
-        stream.download(MP4_DIRECTORY, filename=new_title)
+        stream.download(MP4_DIRECTORY, filename=new_title + ".mp4")
 
-    thumbnail_destination = (Path(JPG_DIRECTORY) / new_title).with_suffix(".jpg")
-    download_thumbnail(yt, thumbnail_destination)
+    maybe_download_thumbnail(yt, jpg_destination_path)
 
 
-def download_thumbnail(yt, destination):
+def maybe_download_thumbnail(yt, destination):
     if os.path.exists(destination):
         return
 

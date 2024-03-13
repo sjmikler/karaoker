@@ -16,6 +16,9 @@ FINAL_DIRECTORY = utils.get_constant("FINAL_DIRECTORY")
 
 
 def MP4ToMP3(mp4, mp3):
+    if os.path.exists(mp3):
+        return
+
     converter = AudioFileClip(mp4)
     converter.write_audiofile(mp3, verbose=False, logger=None)
     converter.close()

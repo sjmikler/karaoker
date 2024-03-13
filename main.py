@@ -36,7 +36,15 @@ if __name__ == "__main__":
     table.add_column("artist")
     table.add_column("title")
     table.add_column("num", width=3)
+    table.add_column("AX id")
+    table.add_column("AX artist")
+    table.add_column("AX title")
     table.add_column("views", width=5)
+    table.add_column("YT artist")
+    table.add_column("YT title")
+    table.add_column("quality")
+    table.add_column("size MB")
+    table.add_column("missing")
 
     queries = utils.parse_song_queries()
     num_songs = sum([int(query.limit) for query in queries])
@@ -67,8 +75,8 @@ if __name__ == "__main__":
                 table.next_row(color="red")
                 continue
 
-            animux_compliant_title = utils.get_song_title(song, suffix=".mp4")
-            youtube.download_mp4(link, new_title=animux_compliant_title, table=table)
+            animux_compliant_name = utils.get_song_title(song)
+            youtube.download_mp4(link, new_title=animux_compliant_name, table=table)
             finished_songs.append(song)
             pbar.update(1)
             table.next_row()
