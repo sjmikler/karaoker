@@ -64,7 +64,7 @@ def set_correct_audio_video_name(pack_location):
     assert path.is_dir(), f"{path} is not a directory"
 
     song_name = path.name
-    file_path = path / song_name
+    file_path = path / (song_name + ".x")  # adding fake suffix to be replaced
     assert file_path.with_suffix(".txt").exists(), f"{file_path.with_suffix('.txt')} does not exist"
     assert file_path.with_suffix(".mp3").exists()
     assert file_path.with_suffix(".mp4").exists()
