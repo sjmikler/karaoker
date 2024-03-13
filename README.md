@@ -31,20 +31,14 @@ ARTIST;TITLE;MAX_SONGS_TO_DOWNLOAD
 **Example file content**
 
 ```
-a-ha;Take On Me
 Abba;;10
 AC/DC;Back in Black
 AC/DC;Highway To Hell
 Aerosmith;;4
-Adele;Rolling In The Deep
-Akurat;Lubię mówić z tobą
-Adam Lambert;Whataya Want From Me
+Aerosmith;Cryin’
 
-Tenacious D;;10
-Three Days Grace;;10
 Skillet;;5
 Skillet;Feel Invincible
-Alphaville;Forever Young
 ```
 
 
