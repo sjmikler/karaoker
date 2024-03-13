@@ -4,6 +4,24 @@ from progress_table import ProgressTable
 
 from tools import animux, matching, metadata, utils, youtube
 
+PACK_PREPARATION_INTERVAL = 20
+
+
+def prepare_packs(finished_songs):
+    print(f"Processed {len(finished_songs)} songs. Downloading missing txt...", end=" ")
+    num_missing = animux.download_annotations_for_songs(finished_songs, max_pack_size=10)
+    print(f"Dowloaded {num_missing}!")
+
+    print("Creating packs and converting MP4 to MP3...")
+    matching.run_matching_and_conversion(finished_songs)
+
+    print("Processing metadata...", end=" ")
+    for song in finished_songs:
+        path = os.path.join(utils.get_constant("FINAL_DIRECTORY"), utils.get_song_title(song))
+        metadata.set_correct_audio_video_name(path)
+    print("Finished!")
+
+
 if __name__ == "__main__":
     utils.assert_constants_are_set()
     os.makedirs(utils.get_constant("MP4_DIRECTORY"), exist_ok=True)
@@ -54,17 +72,10 @@ if __name__ == "__main__":
             finished_songs.append(song)
             pbar.update(1)
             table.next_row()
+
+        if len(finished_songs) >= PACK_PREPARATION_INTERVAL:
+            table.close(close_pbars=False)
+            prepare_packs(finished_songs)
+            finished_songs = []
     table.close()
-
-    print(f"Processed {len(finished_songs)} songs. Now downloading missing txt...")
-    num_missing = animux.download_annotations_for_songs(finished_songs, max_pack_size=10)
-    print(f"Dowloaded {num_missing} missing txt files!")
-
-    print("Creating packs and converting MP4 to MP3...")
-    matching.run_matching_and_conversion(finished_songs)
-
-    print("Processing metadata...")
-    for song in finished_songs:
-        path = os.path.join(utils.get_constant("FINAL_DIRECTORY"), utils.get_song_title(song))
-        metadata.set_correct_audio_video_name(path)
-    print("Finished!")
+    prepare_packs(finished_songs)
