@@ -11,6 +11,7 @@ from tools import utils
 
 MP4_DIRECTORY = os.path.join(utils.get_constant("DATA_DIRECTORY"), "MP4")
 TXT_DIRECTORY = os.path.join(utils.get_constant("DATA_DIRECTORY"), "TXT")
+JPG_DIRECTORY = os.path.join(utils.get_constant("DATA_DIRECTORY"), "JPG")
 FINAL_DIRECTORY = utils.get_constant("FINAL_DIRECTORY")
 
 
@@ -27,6 +28,12 @@ def copy_and_convert(txt_path, mp4_path, destination):
     new_mp4_path = os.path.join(destination, Path(mp4_path).name)
     new_mp3_path = Path(new_mp4_path).with_suffix(".mp3")
     MP4ToMP3(new_mp4_path, new_mp3_path)
+
+    short_name = Path(txt_path).name
+    cover_name = f"{short_name} [CO].jpg"
+    cover_path = Path(destination) / cover_name
+    thumbnail_path = (Path(JPG_DIRECTORY) / short_name).with_suffix(".jpg")
+    shutil.copy(thumbnail_path, cover_path)
 
 
 def run_matching_and_conversion(songs):
