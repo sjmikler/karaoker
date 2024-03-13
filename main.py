@@ -44,13 +44,13 @@ if __name__ == "__main__":
     table.add_column("YT title")
     table.add_column("quality")
     table.add_column("size MB")
-    table.add_column("missing")
 
     queries = utils.parse_song_queries()
     num_songs = sum([int(query.limit) for query in queries])
     print(f"Found {len(queries)} download queries, totaling {num_songs} songs")
 
     pbar = table.pbar(num_songs)
+    good_song_counter = 0
     finished_songs = []
 
     for artist, title, limit in queries:
@@ -65,6 +65,10 @@ if __name__ == "__main__":
         table["num"] = len(songs)
 
         for song in songs:
+            if song in finished_songs:
+                table.next_row(color="yellow")
+                continue
+
             table["AX id"] = song.id
             table["AX artist"] = song.artist
             table["AX title"] = song.title
@@ -78,12 +82,16 @@ if __name__ == "__main__":
             animux_compliant_name = utils.get_song_title(song)
             youtube.download_mp4(link, new_title=animux_compliant_name, table=table)
             finished_songs.append(song)
-            pbar.update(1)
+            good_song_counter += 1
             table.next_row()
+            pbar.update(1)
 
         if len(finished_songs) >= PACK_PREPARATION_INTERVAL:
             table.close(close_pbars=False)
             prepare_packs(finished_songs)
             finished_songs = []
     table.close()
-    prepare_packs(finished_songs)
+    if finished_songs:
+        prepare_packs(finished_songs)
+
+    print(f"Finished {good_song_counter} OK, {num_songs - good_song_counter} failed.")

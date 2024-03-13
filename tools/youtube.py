@@ -39,10 +39,7 @@ def download_mp4(link, new_title, table=dict()):
     table["quality"] = stream.resolution
     table["size MB"] = stream.filesize_mb
 
-    if stream.exists_at_path(mp4_destination_path):
-        table["missing"] = "false"
-    else:
-        table["missing"] = "true"
+    if not stream.exists_at_path(mp4_destination_path):
         stream.download(MP4_DIRECTORY, filename=new_title + ".mp4")
 
     maybe_download_thumbnail(yt, jpg_destination_path)

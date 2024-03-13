@@ -22,8 +22,7 @@ def MP4ToMP3(mp4, mp3):
 
 
 def copy_and_convert(txt_path: str, mp4_path: str, destination: str):
-    if not os.path.exists(destination):
-        os.makedirs(destination)
+    os.makedirs(destination, exist_ok=True)
 
     for file_name in os.listdir(txt_path):
         file_path = os.path.join(txt_path, file_name)
