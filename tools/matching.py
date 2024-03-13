@@ -45,7 +45,7 @@ def copy_and_convert(txt_path: str, mp4_path: str, destination: str):
     thumbnail_path = os.path.join(JPG_DIRECTORY, short_name) + ".jpg"
 
     if not utils.exists_with_the_same_size(thumbnail_path, cover_path):
-        if not os.path.exists(cover_path) or utils.get_constant("OVERWRITE_THUMBNAILS"):
+        if not os.path.exists(cover_path) or utils.get_constant("OVERWRITE_COVERS"):
             shutil.copy(thumbnail_path, cover_path)
 
 
