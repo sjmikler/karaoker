@@ -28,17 +28,20 @@ ARTIST;TITLE;MAX_SONGS_TO_DOWNLOAD
 
 * You can specify the title `AC/DC;Back in Black`, then the number of songs defaults to 1.
 
-**Example file content**
+**Example song list content**
 
 ```
+# My favourite songs
+Skillet;;5
+Skillet;Feel Invincible
+Andrzej Zaucha;Gumisie
+
+# Songs for my dad
 Abba;;10
 AC/DC;Back in Black
 AC/DC;Highway To Hell
 Aerosmith;;4
 Aerosmith;Cryin’
-
-Skillet;;5
-Skillet;Feel Invincible
 ```
 
 
