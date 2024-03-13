@@ -11,12 +11,11 @@ JPG_DIRECTORY = os.path.join(get_constant("DATA_DIRECTORY"), "JPG")
 
 
 def download_mp4(link, new_title, table=dict()):
+    max_resolution = get_constant("PREFERRED_RESOLUTION")
     mp4_destination_path = os.path.join(MP4_DIRECTORY, new_title) + ".mp4"
     jpg_destination_path = os.path.join(JPG_DIRECTORY, new_title) + ".jpg"
     if os.path.exists(mp4_destination_path) and os.path.exists(jpg_destination_path):
         return
-
-    max_resolution = get_constant("PREFERRED_RESOLUTION")
 
     try:
         yt = YouTube(link)

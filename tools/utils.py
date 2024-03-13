@@ -72,3 +72,7 @@ def get_song_title(song, suffix=""):
     title = f"{song.artist} - {song.title}{suffix}"
     title = title.replace("/", "")
     return title
+
+
+def exists_with_the_same_size(source, target):
+    return os.path.exists(target) and os.path.getsize(source) == os.path.getsize(target)
