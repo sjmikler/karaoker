@@ -1,4 +1,5 @@
 import os
+import shutil
 import tempfile
 import zipfile
 from collections import namedtuple
@@ -6,14 +7,14 @@ from collections import namedtuple
 import requests
 from bs4 import BeautifulSoup
 
-from tools.utils import get_constant
+from tools import utils
 
 session = requests.Session()
-assert get_constant("PHPSESSID"), "PHPSESSID not found in environment variables"
-session.cookies.set("PHPSESSID", get_constant("PHPSESSID"))
+assert utils.get_constant("PHPSESSID"), "PHPSESSID not found in environment variables"
+session.cookies.set("PHPSESSID", utils.get_constant("PHPSESSID"))
 
 AnimuxSong = namedtuple("AnimuxSong", ("artist", "title", "id", "views"))
-TXT_DIRECTORY = os.path.join(get_constant("DATA_DIRECTORY"), "TXT")
+TXT_DIRECTORY = os.path.join(utils.get_constant("DATA_DIRECTORY"), "TXT")
 
 
 def seach_songs(query, order="views", ud="desc", table=dict()):
@@ -62,7 +63,21 @@ def extract_youtube_link_for_id(id, table=dict()):
     return link
 
 
-def _download_annotations(song_ids):
+def unpack_sanitized(zip_file, destination):
+    """Unpacks all the files one by one, sanitizing the filenames when unpacking."""
+    with zipfile.ZipFile(zip_file, "r") as zip_ref:
+        for file in zip_ref.namelist():
+            sanitized_path = utils.sanitize_path(file)
+            final_path = os.path.join(destination, sanitized_path)
+            os.makedirs(os.path.dirname(final_path), exist_ok=True)
+
+            # Extract the file content and write it to the new sanitized path
+            with zip_ref.open(file) as source, open(final_path, "wb") as target:
+                shutil.copyfileobj(source, target)
+
+
+def _download_annotations(songs):
+    song_ids = [song.id for song in songs]
     new_archiv = "|".join(song_ids) + "|"
     session.cookies.set("ziparchiv", new_archiv)
     session.cookies.set("counter", str(len(song_ids)))
@@ -78,8 +93,7 @@ def _download_annotations(song_ids):
     tmp_file = tempfile.NamedTemporaryFile(mode="wb", suffix=".zip", delete=False)
     tmp_file.write(response.content)
     tmp_file.close()
-    with zipfile.ZipFile(tmp_file.name, "r") as zip_ref:
-        zip_ref.extractall(TXT_DIRECTORY)
+    unpack_sanitized(tmp_file.name, TXT_DIRECTORY)
     os.unlink(tmp_file.name)
 
 
@@ -92,6 +106,5 @@ def download_annotations_for_songs(songs, max_pack_size=10):
             missing_songs.append(song)
 
     for i in range(0, len(missing_songs), max_pack_size):
-        pack_ids = [song.id for song in missing_songs[i : i + max_pack_size]]
-        _download_annotations(pack_ids)
+        _download_annotations(missing_songs[i : i + max_pack_size])
     return len(missing_songs)

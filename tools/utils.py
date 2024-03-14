@@ -67,12 +67,24 @@ def parse_song_queries():
     return queries
 
 
+def sanitize_path(path):
+    """Removing characters that are not allowed in file paths, including Windows."""
+    path = path.replace("?", "")
+    return path
+
+
+def sanitize_name(path):
+    """Removing characters that are not allowed in file names, including Windows."""
+    path = path.replace("/", "")
+    path = path.replace("?", "")
+    return path
+
+
 def get_song_title(song, suffix=""):
     if suffix and not suffix.startswith("."):
         suffix = "." + suffix
     title = f"{song.artist} - {song.title}{suffix}"
-    title = title.replace("/", "")
-    return title
+    return sanitize_name(title)
 
 
 def exists_with_the_same_size(source, target):
