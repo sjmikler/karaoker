@@ -69,7 +69,7 @@ def parse_song_queries():
 
 def remove_trailing_dots(path):
     """Trailing dots are not allowed in directory names in Windows. Remove them."""
-    parts = path.split(os.sep)
+    parts = os.path.normpath(path).split(os.sep)
     for i, part in enumerate(parts):
         # remove trailing dots
         parts[i] = part.rstrip(".")
