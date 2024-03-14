@@ -14,3 +14,6 @@ PREFERRED_RESOLUTION: "720p"
 
 # Animux songs have low quality covers, we can overwrite them using YouTube video thumbnails
 OVERWRITE_COVERS: false
+
+# Age restricted youtube videos cannot be downloaded without authentication
+INTERACTIVE_AUTHENTICATION: true

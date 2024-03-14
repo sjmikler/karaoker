@@ -1,8 +1,7 @@
 import os
 
 import requests
-from pytube import YouTube
-from pytube.exceptions import AgeRestrictedError
+from pytube import YouTube, exceptions
 
 from tools.utils import get_constant
 
@@ -21,17 +20,18 @@ def download_mp4(link, new_title, table=dict()):
         return
 
     try:
-        yt = YouTube(link)
-        stream = yt.streams.get_by_resolution(max_resolution) or yt.streams.filter().get_highest_resolution()
+        try:
+            yt = YouTube(link)
+            stream = yt.streams.get_by_resolution(max_resolution) or yt.streams.filter().get_highest_resolution()
 
-    except AgeRestrictedError:
-        # if the video is age restricted, we need to authenticate
-        yt = YouTube(
-            link,
-            use_oauth=True,
-            allow_oauth_cache=True,
-        )
-        stream = yt.streams.get_by_resolution(max_resolution) or yt.streams.filter().get_highest_resolution()
+        except exceptions.AgeRestrictedError:
+            # if the video is age restricted, we need to authenticate
+            if not get_constant("INTERACTIVE_AUTHENTICATION"):
+                return 2
+            yt = YouTube(link, use_oauth=True, allow_oauth_cache=True)
+            stream = yt.streams.get_by_resolution(max_resolution) or yt.streams.filter().get_highest_resolution()
+    except Exception:
+        return 1
 
     info = yt.vid_info
     author = info["videoDetails"]["author"]
@@ -42,8 +42,11 @@ def download_mp4(link, new_title, table=dict()):
     table["quality"] = stream.resolution
     table["size MB"] = stream.filesize_mb
 
-    if not stream.exists_at_path(mp4_destination_path):
-        stream.download(MP4_DIRECTORY, filename=new_title + ".mp4")
+    try:
+        if not stream.exists_at_path(mp4_destination_path):
+            stream.download(MP4_DIRECTORY, filename=new_title + ".mp4")
+    except Exception:
+        return 3
 
     maybe_download_thumbnail(yt, jpg_destination_path)
 

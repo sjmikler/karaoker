@@ -4,7 +4,7 @@ from pathlib import Path
 
 import yaml
 
-Query = namedtuple("Query", ("artist", "song", "limit"))
+Query = namedtuple("Query", ("artist", "title", "limit", "language"))
 
 
 def package_relative_path(path):
@@ -20,7 +20,7 @@ if not os.path.exists(YAML_PATH):
 VARIABLES = yaml.safe_load(open(YAML_PATH))
 
 
-def get_constant(key) -> str:
+def get_constant(key):
     # check if variable is defined in the environment
     if os.environ.get(key):
         return os.environ.get(key)
@@ -42,7 +42,7 @@ def assert_constants_are_correct():
 
 def parse_song_queries():
     songs_location = get_constant("SONG_LIST")
-    songs = []
+    queries = []
 
     with open(songs_location, "r") as file:
         lines = file.read().strip().split("\n")
@@ -57,13 +57,14 @@ def parse_song_queries():
             artist = line.pop(0).strip()
             title = line.pop(0).strip() if line else ""
             limit = line.pop(0).strip() if line else "1"
+            language = line.pop(0).strip() if line else ""
 
-            song = Query(artist, title, limit)
-            if song not in songs:
-                songs.append(song)
+            query = Query(artist, title, limit, language)
+            if query not in queries:
+                queries.append(query)
             else:
-                print(f"Duplicated query: {song}")
-    return songs
+                print(f"Duplicated query: {query}")
+    return queries
 
 
 def get_song_title(song, suffix=""):

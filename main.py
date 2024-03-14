@@ -53,11 +53,11 @@ if __name__ == "__main__":
     good_song_counter = 0
     finished_songs = []
 
-    for artist, title, limit in queries:
-        table["artist"] = artist
-        table["title"] = title
+    for query in queries:
+        table["artist"] = query.artist
+        table["title"] = query.title
 
-        songs = animux.seach_songs(artist, title, limit, table=table)
+        songs = animux.seach_songs(query, table=table)
         if not songs:
             table["num"] = 0
             table.next_row(color="red")
@@ -80,7 +80,11 @@ if __name__ == "__main__":
                 continue
 
             animux_compliant_name = utils.get_song_title(song)
-            youtube.download_mp4(link, new_title=animux_compliant_name, table=table)
+            result = youtube.download_mp4(link, new_title=animux_compliant_name, table=table)
+            if result:
+                table.next_row(color="red")
+                continue
+
             finished_songs.append(song)
             good_song_counter += 1
             table.next_row()

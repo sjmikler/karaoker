@@ -16,16 +16,16 @@ AnimuxSong = namedtuple("AnimuxSong", ("artist", "title", "id", "views"))
 TXT_DIRECTORY = os.path.join(get_constant("DATA_DIRECTORY"), "TXT")
 
 
-def seach_songs(artist, title, limit=1, order="views", ud="desc", table=dict()):
+def seach_songs(query, order="views", ud="desc", table=dict()):
     search_url = "https://usdb.animux.de/?link=list"
     params = {
-        "interpret": artist,
-        "title": title,
+        "interpret": query.artist,
+        "title": query.title,
         "edition": "",
-        "language": "",
+        "language": query.language,
         "order": order,
         "ud": ud,
-        "limit": limit,
+        "limit": query.limit,
     }
     response = session.get(search_url, params=params)
     if response.status_code != 200:
