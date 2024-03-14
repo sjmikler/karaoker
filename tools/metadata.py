@@ -67,8 +67,8 @@ def set_correct_audio_video_name(pack_location):
     song_name = path.name
     base_path = os.path.join(path, song_name)
     assert os.path.exists(base_path + ".txt"), f"{base_path + '.txt'} does not exist"
-    assert os.path.exists(base_path + ".mp3")
-    assert os.path.exists(base_path + ".mp4")
+    assert os.path.exists(base_path + ".mp3"), f"{base_path + '.mp3'} does not exist"
+    assert os.path.exists(base_path + ".mp4"), f"{base_path + '.mp4'} does not exist"
 
     txt_file = base_path + ".txt"
     metadata = extract_metadata_from_txt(txt_file)
