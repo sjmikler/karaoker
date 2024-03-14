@@ -73,11 +73,10 @@ def sanitize_path(path):
     return path
 
 
-def sanitize_name(path):
+def sanitize_name(name):
     """Removing characters that are not allowed in file names, including Windows."""
-    path = path.replace("/", "")
-    path = path.replace("?", "")
-    return path
+    name = name.replace("/", "")
+    return sanitize_path(name)
 
 
 def get_song_title(song, suffix=""):
