@@ -1,1 +1,6 @@
+# You can put your songs here
+#
+# Available animux filters:
+# ARTIST;TITLE;MAX_SONGS_TO_DOWNLOAD;LANGUAGE
+
 adele;rolling in the deep
