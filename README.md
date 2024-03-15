@@ -12,7 +12,8 @@ UltraStar Deluxe: https://github.com/UltraStar-Deluxe/USDX
 4. Install all the requirements
 5. Run `main.py`
 
-> If you try to download age restricted youtube video, you will be prompted to login (via pytube).
+> If you try to download age restricted youtube video, the download will fail.
+> To proceed, set INTERACTIVE_AUTHENTICATION=true, then you will be prompted to login (via pytube).
 
 Whatever you set as `const.FINAL_DIRECTORY` is ready to be used by UltraStar.
 
