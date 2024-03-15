@@ -1,6 +1,8 @@
 # karaoker
 
-Mass download songs from https://usdb.animux.de/.
+Mass download karaoke songs for UltraStar from https://usdb.animux.de/.
+
+UltraStar Deluxe: https://github.com/UltraStar-Deluxe/USDX
 
 ### Instructions
 
@@ -13,6 +15,8 @@ Mass download songs from https://usdb.animux.de/.
 > If you try to download age restricted youtube video, you will be prompted to login (via pytube).
 
 Whatever you set as `const.FINAL_DIRECTORY` is ready to be used by UltraStar.
+
+Your existing songs will not be affected. Existing files will not be overriden.
 
 ### Explanation: song list
 
