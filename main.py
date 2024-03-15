@@ -1,8 +1,10 @@
+import argparse
 import os
 
 from progress_table import ProgressTable
 
 from tools import animux, matching, metadata, utils, youtube
+from tools.utils import const
 
 PACK_PREPARATION_INTERVAL = 20
 
@@ -17,15 +19,35 @@ def prepare_packs(finished_songs):
 
     print("Processing metadata...", end=" ")
     for song in finished_songs:
-        path = os.path.join(utils.get_constant("FINAL_DIRECTORY"), utils.get_song_title(song))
+        path = os.path.join(const.FINAL_DIRECTORY, utils.get_song_title(song))
         metadata.set_correct_audio_video_name(path)
     print("Finished!")
 
 
+def parse_command_line_arguments():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("songs", help="Pass songs in the command line instead of using songs file", nargs="*")
+    parser.add_argument("--constants", default=None, help="Path to the constants file")
+    args = parser.parse_args()
+    return args
+
+
 if __name__ == "__main__":
-    utils.assert_constants_are_correct()
+    args = parse_command_line_arguments()
+    if args.constants:
+        const._reload_variables(args.constants)
+
+    utils.assert_constant_paths_exist("DATA_DIRECTORY", "FINAL_DIRECTORY")
+    assert const.PHPSESSID is not None, "PHPSESSID cookie is not set"
+
+    if args.songs:
+        queries = [utils.parse_song_query(song) for song in args.songs]
+    else:
+        utils.assert_constant_paths_exist("SONG_LIST")
+        queries = utils.parse_song_queries()
+
     for subdir in ["MP4", "TXT", "JPG"]:
-        path = os.path.join(utils.get_constant("DATA_DIRECTORY"), subdir)
+        path = os.path.join(const.DATA_DIRECTORY, subdir)
         os.makedirs(path, exist_ok=True)
 
     table = ProgressTable(
@@ -45,11 +67,10 @@ if __name__ == "__main__":
     table.add_column("quality")
     table.add_column("size MB")
 
-    queries = utils.parse_song_queries()
-    num_songs = sum([int(query.limit) for query in queries])
-    print(f"Found {len(queries)} download queries, totaling {num_songs} songs")
+    num_songs_queried = sum([int(query.limit) for query in queries])
+    print(f"Found {len(queries)} download queries, totaling {num_songs_queried} songs")
 
-    pbar = table.pbar(num_songs)
+    pbar = table.pbar(num_songs_queried)
     good_song_counter = 0
     finished_songs = []
 
@@ -98,4 +119,4 @@ if __name__ == "__main__":
     if finished_songs:
         prepare_packs(finished_songs)
 
-    print(f"Finished {good_song_counter} OK, {num_songs - good_song_counter} failed.")
+    print(f"Finished {good_song_counter} out of {num_songs_queried} queried")

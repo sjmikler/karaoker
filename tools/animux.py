@@ -8,16 +8,14 @@ import requests
 from bs4 import BeautifulSoup
 
 from tools import utils
+from tools.utils import const
 
 session = requests.Session()
-assert utils.get_constant("PHPSESSID"), "PHPSESSID not found in environment variables"
-session.cookies.set("PHPSESSID", utils.get_constant("PHPSESSID"))
-
 AnimuxSong = namedtuple("AnimuxSong", ("artist", "title", "id", "views"))
-TXT_DIRECTORY = os.path.join(utils.get_constant("DATA_DIRECTORY"), "TXT")
 
 
 def seach_songs(query, order="views", ud="desc", table=dict()):
+    session.cookies.set("PHPSESSID", const.PHPSESSID)
     search_url = "https://usdb.animux.de/?link=list"
     params = {
         "interpret": query.artist,
@@ -54,6 +52,7 @@ def seach_songs(query, order="views", ud="desc", table=dict()):
 
 
 def extract_youtube_link_for_id(id, table=dict()):
+    session.cookies.set("PHPSESSID", const.PHPSESSID)
     search_url = f"https://usdb.animux.de/?link=detail&id={id}"
     soup = BeautifulSoup(session.get(search_url).text, "html.parser")
     links = soup.find_all("iframe", {"class": "embed"})
@@ -77,6 +76,7 @@ def unpack_sanitized(zip_file, destination):
 
 
 def _download_annotations(songs):
+    session.cookies.set("PHPSESSID", const.PHPSESSID)
     song_ids = [song.id for song in songs]
     new_archiv = "|".join(song_ids) + "|"
     session.cookies.set("ziparchiv", new_archiv)
@@ -93,7 +93,7 @@ def _download_annotations(songs):
     tmp_file = tempfile.NamedTemporaryFile(mode="wb", suffix=".zip", delete=False)
     tmp_file.write(response.content)
     tmp_file.close()
-    unpack_sanitized(tmp_file.name, TXT_DIRECTORY)
+    unpack_sanitized(tmp_file.name, os.path.join(const.DATA_DIRECTORY, "TXT"))
     os.unlink(tmp_file.name)
 
 
@@ -101,7 +101,7 @@ def download_annotations_for_songs(songs, max_pack_size=10):
     missing_songs = []
     for song in songs:
         animux_compliant_title = f"{song.artist} - {song.title}"
-        output_path = os.path.join(TXT_DIRECTORY, animux_compliant_title)
+        output_path = os.path.join(const.DATA_DIRECTORY, "TXT", animux_compliant_title)
         if not os.path.exists(output_path):
             missing_songs.append(song)
 

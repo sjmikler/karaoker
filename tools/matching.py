@@ -8,11 +8,7 @@ from moviepy.editor import AudioFileClip
 from tqdm import tqdm
 
 from tools import utils
-
-MP4_DIRECTORY = os.path.join(utils.get_constant("DATA_DIRECTORY"), "MP4")
-TXT_DIRECTORY = os.path.join(utils.get_constant("DATA_DIRECTORY"), "TXT")
-JPG_DIRECTORY = os.path.join(utils.get_constant("DATA_DIRECTORY"), "JPG")
-FINAL_DIRECTORY = utils.get_constant("FINAL_DIRECTORY")
+from tools.utils import const
 
 
 def MP4ToMP3(mp4, mp3):
@@ -24,6 +20,7 @@ def MP4ToMP3(mp4, mp3):
 def copy_and_convert(txt_path: str, mp4_path: str, destination: str):
     os.makedirs(destination, exist_ok=True)
 
+    # Copy files one by one, not overwriting existing ones
     for file_name in os.listdir(txt_path):
         file_path = os.path.join(txt_path, file_name)
         file_dest = os.path.join(destination, file_name)
@@ -42,11 +39,11 @@ def copy_and_convert(txt_path: str, mp4_path: str, destination: str):
     short_name = os.path.basename(txt_path)
     cover_name = f"{short_name} [CO].jpg"
     cover_path = os.path.join(destination, cover_name)
-    thumbnail_path = os.path.join(JPG_DIRECTORY, short_name) + ".jpg"
+    thumbnail_path = os.path.join(const.DATA_DIRECTORY, "JPG", short_name) + ".jpg"
 
-    if not utils.exists_with_the_same_size(thumbnail_path, cover_path):
-        if not os.path.exists(cover_path) or utils.get_constant("OVERWRITE_COVERS"):
-            shutil.copy(thumbnail_path, cover_path)
+    # Copy the thumbnail only if cover image does not exist
+    if not os.path.exists(cover_path):
+        shutil.copy(thumbnail_path, cover_path)
 
 
 def run_matching_and_conversion(songs):
@@ -56,10 +53,10 @@ def run_matching_and_conversion(songs):
     for song in songs:
         txt_name = utils.get_song_title(song)
         mp4_name = utils.get_song_title(song, suffix=".mp4")
-        txt_path = os.path.join(TXT_DIRECTORY, txt_name)
-        mp4_path = os.path.join(MP4_DIRECTORY, mp4_name)
+        txt_path = os.path.join(const.DATA_DIRECTORY, "TXT", txt_name)
+        mp4_path = os.path.join(const.DATA_DIRECTORY, "MP4", mp4_name)
 
-        destination = os.path.join(FINAL_DIRECTORY, txt_name)
+        destination = os.path.join(const.FINAL_DIRECTORY, txt_name)
         proc = executor.submit(copy_and_convert, txt_path, mp4_path, destination)
         processes.append(proc)
 

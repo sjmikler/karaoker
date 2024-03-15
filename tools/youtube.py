@@ -1,20 +1,16 @@
 import os
 
 import requests
-from pytube import YouTube, exceptions
+from pytube import YouTube
 
-from tools.utils import get_constant
-
-MP4_DIRECTORY = os.path.join(get_constant("DATA_DIRECTORY"), "MP4")
-JPG_DIRECTORY = os.path.join(get_constant("DATA_DIRECTORY"), "JPG")
-FINAL_DIRECTORY = os.path.join(get_constant("FINAL_DIRECTORY"))
+from tools.utils import const
 
 
-def _download_mp4(link, new_title, table=dict(), authenticate=False, only_audio=False):
-    max_resolution = get_constant("PREFERRED_RESOLUTION")
-    jpg_destination_path = os.path.join(JPG_DIRECTORY, new_title) + ".jpg"
-    mp4_destination_path = os.path.join(MP4_DIRECTORY, new_title) + ".mp4"
-    mp4_final_path = os.path.join(FINAL_DIRECTORY, new_title, new_title) + ".mp4"
+def _download_mp4(link: str, new_title: str, table=dict(), authenticate=False, only_audio=False):
+    max_resolution = const.PREFERRED_RESOLUTION
+    jpg_destination_path = os.path.join(const.DATA_DIRECTORY, "JPG", new_title) + ".jpg"
+    mp4_destination_path = os.path.join(const.DATA_DIRECTORY, "MP4", new_title) + ".mp4"
+    mp4_final_path = os.path.join(const.FINAL_DIRECTORY, new_title, new_title) + ".mp4"
     mp4_ok = os.path.exists(mp4_final_path) or os.path.exists(mp4_destination_path)
     if mp4_ok and os.path.exists(jpg_destination_path):
         return
@@ -39,6 +35,7 @@ def _download_mp4(link, new_title, table=dict(), authenticate=False, only_audio=
     table["size MB"] = stream.filesize_mb
 
     if not stream.exists_at_path(mp4_destination_path):
+        MP4_DIRECTORY = os.path.join(const.DATA_DIRECTORY, "MP4")
         stream.download(MP4_DIRECTORY, filename=new_title + ".mp4")
     maybe_download_thumbnail(yt, jpg_destination_path)
 
@@ -50,7 +47,7 @@ def download_mp4(link, new_title, table=dict()):
         return _download_mp4(link, new_title, table, authenticate=False, only_audio=False)
     except Exception:
         pass
-    if get_constant("INTERACTIVE_AUTHENTICATION"):
+    if const.INTERACTIVE_AUTHENTICATION:
         try:
             return _download_mp4(link, new_title, table, authenticate=True, only_audio=False)
         except Exception:
