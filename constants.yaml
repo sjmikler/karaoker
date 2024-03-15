@@ -2,13 +2,13 @@
 PHPSESSID:
 
 # Location of a text file containg song titles
-SONG_LIST: "/PATH/TO/SONG_LIST.txt"
+SONG_LIST: "./data/songs.txt"
 
 # Location of files downloaded by the program
-DATA_DIRECTORY: "/PATH/TO/DATA_DIRECTORY/"
+DATA_DIRECTORY: "./data/"
 
 # Destination directory containing UltraStar packs
-FINAL_DIRECTORY: "/PATH/TO/FINAL_DIRECTORY/"
+FINAL_DIRECTORY: "./data/final/"
 
 # If preferred resolution is not available, the highest available is used
 PREFERRED_RESOLUTION: "720p"
