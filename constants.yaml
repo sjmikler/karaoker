@@ -1,4 +1,5 @@
-PHPSESSID: # Cookie (extract with developer tools and set as environment variable)
+# Cookie in usdb.animux.de. Extract it using browser developer tools
+PHPSESSID:
 
 # Location of a text file containg song titles
 SONG_LIST: "/PATH/TO/SONG_LIST.txt"
