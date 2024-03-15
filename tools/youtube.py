@@ -1,3 +1,4 @@
+import logging
 import os
 
 import requests
@@ -42,25 +43,15 @@ def _download_mp4(link: str, new_title: str, table=dict(), authenticate=False, o
 
 def download_mp4(link, new_title, table=dict()):
     link = link.replace("embed/", "watch?v=")
-
+    auth = const.INTERACTIVE_AUTHENTICATION
     try:
-        return _download_mp4(link, new_title, table, authenticate=False, only_audio=False)
+        return _download_mp4(link, new_title, table, authenticate=auth, only_audio=False)
     except Exception:
         pass
-    if const.INTERACTIVE_AUTHENTICATION:
-        try:
-            return _download_mp4(link, new_title, table, authenticate=True, only_audio=False)
-        except Exception:
-            pass
-        try:
-            return _download_mp4(link, new_title, table, authenticate=True, only_audio=True)
-        except Exception as e:
-            print(e)
-    else:
-        try:
-            return _download_mp4(link, new_title, table, authenticate=False, only_audio=True)
-        except Exception as e:
-            print(e)
+    try:
+        return _download_mp4(link, new_title, table, authenticate=auth, only_audio=True)
+    except Exception as e:
+        logging.error(e)
     return 1  # non-zero return here means a failure
 
 

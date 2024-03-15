@@ -35,7 +35,7 @@ def parse_command_line_arguments():
 if __name__ == "__main__":
     args = parse_command_line_arguments()
     if args.constants:
-        const._reload_variables(args.constants)
+        const._reload_variables(yaml_path=args.constants)
 
     utils.assert_constant_paths_exist("DATA_DIRECTORY", "FINAL_DIRECTORY")
     assert const.PHPSESSID is not None, "PHPSESSID cookie is not set"
