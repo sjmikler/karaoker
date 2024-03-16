@@ -31,6 +31,9 @@ def seach_songs(query, order="views", ud="desc", table=dict()):
         return None
 
     soup = BeautifulSoup(response.text, "html.parser")
+    if "You are not logged in. Login to use this function." in str(soup):
+        raise Exception("Your PHPSESSID is incorrect or expired")
+
     song_rows = soup.find("tr", {"class": "list_head"})
     song_rows = [row for row in song_rows if "?link=detail&amp;id=" in str(row)]
     if len(song_rows) == 0:
