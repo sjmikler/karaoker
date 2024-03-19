@@ -8,19 +8,32 @@ Prerequisites:
 * Python >= 3.6
 * [UltraStar Deluxe](https://github.com/UltraStar-Deluxe/USDX) or other compatible karaoke game
 
+Preparation:
+
 1. Login to animux and note down your `PHPSESSID` cookie (using developer settings, section `storage`)
 2. Set up correct paths and variables in `constants.yaml` (alternatively set corresponding environment variables)
-3. Optionally create **song list**, see below
-4. Install all the requirements from `requirements.txt` in your python environment
-5. Run `main.py`
+3. Install the requirements to your python environment using `python -r requirements.txt`
+4. Optionally create a **song list**, see below
 
 > If you try to download age restricted youtube video, the download will fail.
 > To proceed, set INTERACTIVE_AUTHENTICATION=true, then you will be prompted to login (via [pytube](https://github.com/pytube/pytube)).
 
 Whatever you set as `FINAL_DIRECTORY` is ready to be used by UltraStar Deluxe.
-
 Your existing songs will not be affected. Files existing in `FINAL_DIRECTORY` will not be overriden.
 For example, if you modify song offset in an already downloaded `.txt` file, it will not be overriden by karaoker.
+
+When you are ready, run
+
+```
+python main.py
+```
+
+to download all songs from the **song list** or 
+
+```
+python main.py "ARTIST;TITLE"
+```
+to download a single song.
 
 ### Explanation: song list
 
