@@ -13,7 +13,7 @@ Preparation:
 1. Login to animux and note down your `PHPSESSID` cookie (using developer settings, section `storage`)
 2. Set up correct paths and variables in `constants.yaml` (alternatively set corresponding environment variables)
 3. Install the requirements to your python environment using `python -r requirements.txt`
-4. Optionally create a **song list**, see below
+4. Optionally create a **song list**, see section below
 
 > If you try to download age restricted youtube video, the download will fail.
 > To proceed, set INTERACTIVE_AUTHENTICATION=true, then you will be prompted to login (via [pytube](https://github.com/pytube/pytube)).
@@ -28,12 +28,12 @@ When you are ready, run
 python main.py
 ```
 
-to download all songs from the **song list** or 
+to download all songs from the song list or 
 
 ```
-python main.py "ARTIST;TITLE"
+python main.py "ARTIST1;TITLE1" "ARTIST2;TITLE2;NUMBER;LANGUAGE" ...
 ```
-to download a single song.
+to download a songs without using song list.
 
 ### Explanation: song list
 
@@ -81,15 +81,6 @@ Aerosmith;Cryin’
 * [instructions for Firefox](https://www.cookieserve.com/knowledge-base/website-cookies/how-do-i-check-cookies-in-firefox/)
 
 ### Other options
-
----
-
-You can quickly download songs without creating **song list**:
-
-```
-python main.py "adele;;5" "system of a down;B.Y.O.B"
-```
-
 ---
 
 You can specify different `constants.yaml` file:
