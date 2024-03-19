@@ -74,6 +74,12 @@ Aerosmith;;4
 Aerosmith;Cryin’
 ```
 
+### Troubleshotting
+
+**Q:** How to find PHPSESSID?
+* [instructions for Chrome](https://www.cookieserve.com/knowledge-base/website-cookies/how-do-i-check-cookies-in-chrome/)
+* [instructions for Firefox](https://www.cookieserve.com/knowledge-base/website-cookies/how-do-i-check-cookies-in-firefox/)
+
 ### Other options
 
 ---
