@@ -4,11 +4,11 @@ Mass download karaoke songs from https://usdb.animux.de/.
 
 ### Instructions
 
-Prerequisites:
+**Prerequisites:**
 * Python >= 3.6
 * [UltraStar Deluxe](https://github.com/UltraStar-Deluxe/USDX) or other compatible karaoke game
 
-Preparation:
+**Preparation:**
 
 1. Login to animux and note down your `PHPSESSID` cookie (using developer settings, section `storage`)
 2. Set up correct paths and variables in `constants.yaml` (alternatively set corresponding environment variables)
