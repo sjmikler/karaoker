@@ -1,8 +1,10 @@
 # karaoker
 
-Mass download karaoke songs for UltraStar Deluxe from https://usdb.animux.de/.
+Mass download karaoke songs from https://usdb.animux.de/.
 
-UltraStar Deluxe: https://github.com/UltraStar-Deluxe/USDX
+Prerequisites:
+* Python >= 3.6
+* [UltraStar Deluxe](https://github.com/UltraStar-Deluxe/USDX) or other compatible karaoke game
 
 ### Instructions
 
