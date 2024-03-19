@@ -12,7 +12,7 @@ Preparation:
 
 1. Login to animux and note down your `PHPSESSID` cookie (using developer settings, section `storage`)
 2. Set up correct paths and variables in `constants.yaml` (alternatively set corresponding environment variables)
-3. Install the requirements to your python environment using `python -r requirements.txt`
+3. Install the requirements to your python environment using `pip install -r requirements.txt`
 4. Optionally create a **song list**, see section below
 
 > If you try to download age restricted youtube video, the download will fail.
