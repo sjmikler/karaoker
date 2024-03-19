@@ -17,7 +17,7 @@ Preparation:
 
 > If you try to download age restricted youtube video, the download will fail.
 > To proceed, set `INTERACTIVE_AUTHENTICATION=true` in `constants.yaml` or as an environment variable,
-> then you will be prompted to login (via [pytube](https://github.com/pytube/pytube)).
+> then you will be prompted to login to YouTube (via [pytube](https://github.com/pytube/pytube)).
 
 Whatever you set as `FINAL_DIRECTORY` is ready to be used by UltraStar Deluxe.
 Your existing songs will not be affected. Files existing in `FINAL_DIRECTORY` will not be overriden.
