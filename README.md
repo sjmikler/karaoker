@@ -38,6 +38,7 @@ to download a single song.
 ### Explanation: song list
 
 This is a list of all the songs you want to download.
+You don't need to create it, but using it will help you to recreate your song library whenver you need.
 
 Each line in this file is a download query in form:
 
