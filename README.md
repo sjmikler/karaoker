@@ -7,8 +7,8 @@ UltraStar Deluxe: https://github.com/UltraStar-Deluxe/USDX
 ### Instructions
 
 1. Login to animux and set your `PHPSESSID` cookie as an environment variable
-2. Create a **song list** (explained below)
-3. Set up correct paths in `constants.yaml`
+2. Set up correct paths in `constants.yaml`
+3. Creating **song list** is optional, see below
 4. Install all the requirements
 5. Run `main.py`
 
