@@ -11,7 +11,7 @@ Mass download karaoke songs from https://usdb.animux.de/.
 **Preparation:**
 
 1. Login to animux and note down your `PHPSESSID` cookie (using developer settings, section `storage`)
-2. Set up correct paths and variables in `constants.yaml` (alternatively set corresponding environment variables)
+2. Set up correct paths and variables in `constants.yaml` (or set corresponding environment variables)
 3. Install the requirements to your python environment using `pip install -r requirements.txt`
 4. Optionally create a **song list**, see section below
 
